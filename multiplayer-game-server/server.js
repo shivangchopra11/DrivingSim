@@ -1,6 +1,8 @@
 var uuid = require('uuid-random')
 const WebSocket = require('ws')
 
+var clients = []
+
 const wss = new WebSocket.WebSocketServer({port: 8080}, () => {
     console.log('Server Started')
 })
@@ -16,6 +18,9 @@ wss.on('connection', function connection(client) {
 
     var currentClient = playersData[""+client.id]
 
+    clients.push(client)
+    
+
     //Send default client data back to client for reference
     client.send(`{"id": "${client.id}"}`)
 
@@ -23,8 +28,14 @@ wss.on('connection', function connection(client) {
     client.on('message', (data) => {        
         var dataJSON = JSON.parse(data)
 
-        console.log("Player Message")
-        console.log(dataJSON)
+        // console.log("Player Message")
+        // console.log(dataJSON)
+        // clients.forEach((c) => {
+        //     console.log(c.id)
+        //     c.send(JSON.stringify(dataJSON))
+        // })
+        wss.broadcast(JSON.stringify(dataJSON));
+
     })
 
     //Method notifies when client disconnects
@@ -38,3 +49,10 @@ wss.on('connection', function connection(client) {
 wss.on('listening', () => {
     console.log('listening on 8080')
 })
+
+wss.broadcast = function broadcast(msg) {
+    wss.clients.forEach(function each(client) {
+        if (client.id != msg.id)
+            client.send(msg)
+    })
+}
