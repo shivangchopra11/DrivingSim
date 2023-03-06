@@ -16,7 +16,7 @@ public class SocketManager : MonoBehaviour
     void Start()
     {
  
-        socket = new WebSocket("ws://143.215.98.112:8080");
+        socket = new WebSocket("ws://143.215.106.74:8080");
         //socket = new WebSocket("ws://websocket-starter-code-multiplayer-websocket-app.bsh-serverconnect-b3c-4x1-162e406f043e20da9b0ef0731954a894-0000.us-south.containers.appdomain.cloud/");
         socket.Connect();
  
@@ -99,7 +99,7 @@ public class SocketManager : MonoBehaviour
  
             // string playerDataJSON = JsonUtility.ToJson(playerData1);
             // socket.Send(playerDataJSON);
-            player2.transform.position = new Vector3(playerData2.xPos, playerData2.yPos, playerData2.zPos);
+            player2.transform.position = new Vector3(playerData2.xPos, playerData2.yPos+(float)0.3, playerData2.zPos);
         }
  
         if (Input.GetKeyDown(KeyCode.M))
