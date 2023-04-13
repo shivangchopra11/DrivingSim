@@ -111,6 +111,8 @@ namespace StarterAssets
 
         private bool _hasAnimator;
 
+        public bool isControllable;
+
         private bool IsCurrentDeviceMouse
         {
             get
@@ -270,13 +272,19 @@ namespace StarterAssets
 
             Debug.Log(_verticalVelocity);
 
-            if (reverse == true) {
-                _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                             new Vector3(-_verticalVelocity/2.0f, 0.0f, _verticalVelocity/2.0f) * Time.deltaTime);
+            if (isControllable == false) {
+                if (reverse == true) {
+                    _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+                                new Vector3(_verticalVelocity, 0.0f, -_verticalVelocity/10.0f) * Time.deltaTime);
+                } else {
+                    _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+                                new Vector3(-_verticalVelocity, 0.0f, _verticalVelocity/3.5f) * Time.deltaTime);
+                }
             } else {
-                _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                             new Vector3(_verticalVelocity, 0.0f, -_verticalVelocity/2.0f) * Time.deltaTime);
+                
             }
+
+            
 
             // move the player
             
