@@ -32,8 +32,8 @@ public class playerCollision : MonoBehaviour
 
             rotating = true;
             // float timeElapsed = 0;
-            Quaternion startRotation = player.gameObject.transform.rotation;
-            Quaternion targetRotation = player.gameObject.transform.rotation * Quaternion.Euler(0, 180, 0);
+            // Quaternion startRotation = player.gameObject.transform.rotation;
+            // Quaternion targetRotation = player.gameObject.transform.rotation * Quaternion.Euler(0, 180, 0);
             // while (timeElapsed < lerpDuration)
             // {
             //     player.gameObject.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / lerpDuration);
@@ -42,9 +42,9 @@ public class playerCollision : MonoBehaviour
             // }
             Vector3 posVector = player.gameObject.transform.position;
             posVector.x -= 0.2f;
-            posVector.z += 0.2f;
+            // posVector.z += 0.2f;
             player.gameObject.transform.position = posVector;
-            player.gameObject.transform.rotation = targetRotation;
+            // player.gameObject.transform.rotation = targetRotation;
             // rotating = false;
 
             // GameObject controller = GameObject.Find("ThirdPersonController");

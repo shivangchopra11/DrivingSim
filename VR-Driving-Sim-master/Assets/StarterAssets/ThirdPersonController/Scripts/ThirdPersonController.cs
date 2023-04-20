@@ -113,6 +113,9 @@ namespace StarterAssets
 
         public bool isControllable;
 
+        public bool crossing;
+        public bool sidewalk;
+
         private bool IsCurrentDeviceMouse
         {
             get
@@ -161,7 +164,11 @@ namespace StarterAssets
 
             JumpAndGravity();
             GroundedCheck();
-            Move();
+            // Move();
+            if (crossing == true)
+                MoveCrossing();
+            if (sidewalk == true)
+                MoveSidewalk();
         }
 
         private void LateUpdate()
@@ -295,6 +302,61 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
+        }
+
+        private void MoveCrossing()
+        {
+            // set target speed based on move speed, sprint speed and if sprint is pressed
+            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+
+            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+
+            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+            // if there is no input, set the target speed to 0
+            // if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+
+            // a reference to the players current horizontal velocity
+            float _verticalVelocity = MoveSpeed;
+            if (isControllable == false) {
+                if (reverse == true) {
+                    _controller.Move(new Vector3(_verticalVelocity, 0.0f, 0.0f) * Time.deltaTime);
+                    transform.rotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
+                } else {
+                    _controller.Move(new Vector3(-_verticalVelocity, 0.0f, 0.0f) * Time.deltaTime);
+                    transform.rotation = Quaternion.Euler(0.0f, 270.0f, 0.0f);
+                }
+            } else {
+                
+            }
+
+        }
+
+
+        private void MoveSidewalk()
+        {
+            // set target speed based on move speed, sprint speed and if sprint is pressed
+            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+
+            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+
+            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+            // if there is no input, set the target speed to 0
+            // if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+
+            // a reference to the players current horizontal velocity
+            float _verticalVelocity = MoveSpeed;
+            if (isControllable == false) {
+                if (reverse == true) {
+                    _controller.Move(new Vector3(0.0f, 0.0f, -_verticalVelocity) * Time.deltaTime);
+                    transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+                } else {
+                    _controller.Move(new Vector3(0.0f, 0.0f, _verticalVelocity) * Time.deltaTime);
+                    transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                }
+            } else {
+                
+            }
+
         }
 
         private void JumpAndGravity()
